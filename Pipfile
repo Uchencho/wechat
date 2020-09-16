@@ -10,6 +10,7 @@ django = "*"
 djangorestframework = "*"
 pylint = "*"
 python-dotenv = "*"
+channels = "*"
 
 [requires]
 python_version = "3.7"
