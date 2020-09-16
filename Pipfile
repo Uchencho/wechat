@@ -12,6 +12,7 @@ pylint = "*"
 python-dotenv = "*"
 channels = "*"
 pyjwt = "*"
+websockets = "*"
 
 [requires]
 python_version = "3.7"
