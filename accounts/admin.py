@@ -8,7 +8,7 @@ class MyUserAdmin(admin.ModelAdmin):
 
     fieldsets = (
         (None, {'fields': ('email',)}),
-        (_('Personal info'), {'fields': ('first_name', 'last_name',
+        (_('Personal info'), {'fields': ('username', 'first_name', 'last_name',
                                          'phone_number','house_add')}),
         (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
                                        'groups', 'user_permissions')}),
