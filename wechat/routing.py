@@ -8,20 +8,20 @@ from chat.consumer import ChatConsumer
 
 application = ProtocolTypeRouter({
     # Empty for now, (http-django views is added by default)
-    # 'websocket' : URLRouter(
-    #             [
-    #                 path("messages/", ChatConsumer),
-    #             ]
-    #         )
-    'websocket' : AllowedHostsOriginValidator(
-        AuthMiddlewareStack(
-            URLRouter(
+    'websocket' : URLRouter(
                 [
-                    url(r"^messages/(?<username>[\w.@+-]+)/$", ChatConsumer),
+                    path("messages/<str:username>", ChatConsumer),
                 ]
             )
-        )
-    )
+    # 'websocket' : AllowedHostsOriginValidator(
+    #     AuthMiddlewareStack(
+    #         URLRouter(
+    #             [
+    #                 url(r"^messages/(?<username>[\w.@+-]+)/$", ChatConsumer),
+    #             ]
+    #         )
+    #     )
+    # )
 })
 
 # ws://ourdomain/messages/<username>

@@ -13,9 +13,9 @@ class ChatConsumer(AsyncConsumer):
             "type" : "websocket.accept"
         })
 
-        other_user = self.scope['url_route']['kwargs']['username']
-        me         = self.scope['user']
-        print(other_user, me)
+        # other_user = self.scope['url_route']['kwargs']['username']
+        # me         = self.scope['user']
+        # print(other_user, me)
 
         await self.send({
             "type" : "websocket.send",

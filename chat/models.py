@@ -48,7 +48,7 @@ class Thread(models.Model):
 
     def broadcast(self, msg=None):
         if msg is not None:
-            broadcast_msg_to_chat(self, group_name=self.room_group_name, user='admin')
+            # broadcast_msg_to_chat(self, group_name=self.room_group_name, user='admin')
             return True
         return False
 
@@ -59,3 +59,5 @@ class ChatMessage(models.Model):
     user        = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='sender', on_delete=models.CASCADE)
     message     = models.TextField()
     timestamp   = models.DateTimeField(auto_now_add=True)
+
+    

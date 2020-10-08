@@ -1,0 +1,9 @@
+User authentication with jwt
+Sign in User and signout User
+Connect User to a websocket
+Allow user to see a history of users contacted
+Allow user to send message to another user
+Allow user to see history of messages sent using lazy loading?
+
+Redis for storing messages?
+Jwt for authentication?
