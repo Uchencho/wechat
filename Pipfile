@@ -9,6 +9,11 @@ verify_ssl = true
 django = "*"
 djangorestframework = "*"
 pylint = "*"
+python-dotenv = "*"
+channels = "*"
+pyjwt = "*"
+websockets = "*"
+websocket-client = "*"
 
 [requires]
 python_version = "3.7"
