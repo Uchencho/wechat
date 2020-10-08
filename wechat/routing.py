@@ -5,14 +5,18 @@ from channels.auth import AuthMiddlewareStack
 from channels.security.websocket import AllowedHostsOriginValidator, OriginValidator
 
 from chat.consumer import ChatConsumer
+from chat.channelMiddleware import TokenAuthMiddleware
 
 application = ProtocolTypeRouter({
     # Empty for now, (http-django views is added by default)
-    'websocket' : URLRouter(
+    'websocket' : TokenAuthMiddleware(
+            URLRouter(
                 [
-                    path("messages/<str:username>", ChatConsumer),
+                    path("messages", ChatConsumer),
                 ]
             )
+    )
+            
     # 'websocket' : AllowedHostsOriginValidator(
     #     AuthMiddlewareStack(
     #         URLRouter(
