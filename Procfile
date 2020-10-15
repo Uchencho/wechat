@@ -1,1 +1,1 @@
-web: gunicorn wechat.asgi
+web: gunicorn wechat.wsgi
