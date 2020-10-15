@@ -29,20 +29,20 @@ class TokenAuthMiddlewareInstance:
         try:
             token = parse_qs(self.scope["query_string"].decode("utf8"))["token"][0]
         except KeyError:
-            return await None
+            return None
 
         try:
             payload = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
         except jwt.ExpiredSignatureError:
-            return await None
+            return None
         except IndexError:
-            return await None
+            return None
         except:
-            return await None
+            return None
 
         user = await get_user(payload['user_id'])
         if not user:
-            return await None
+            return None
 
         self.scope['user'] = user
         inner = self.inner(self.scope)
