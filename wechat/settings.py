@@ -152,6 +152,8 @@ EMAIL = os.getenv("EMAIL")
 REFRESH_TOKEN_SECRET = "d10476a0e00bff48364c7a56214c6177f82fb096577b49f986f7f8913ccb2e1d"
 # timezone.localtime(timezone.now())
 
+from wechat.restconf.main import REST_FRAMEWORK
+
 
 # django_heroku.settings(locals())
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'

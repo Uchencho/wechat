@@ -25,11 +25,11 @@ class Login(APIView):
         response = Response()
 
         if email == "Not Sent" or password == "Not Sent":
-            raise exceptions.AuthenticationFailed("Credentials not sent")
+            raise exceptions.AuthenticationFailed("Invalid payload")
 
         user = User.objects.filter(email__iexact=email).first()
         if user == None or not user.check_password(password):
-            raise exceptions.AuthenticationFailed("Credentials incorrect")
+            raise exceptions.AuthenticationFailed("Email or password is incorrect")
 
         user = User.objects.filter(email__iexact=email).first()
         user.last_login = timezone.now()
@@ -42,7 +42,7 @@ class Login(APIView):
 
         response.set_cookie(key='refreshtoken', value=refresh_token, httponly=True)
         serialized_user['access_token'] = access_token
-        response.data = serialized_user
+        response.data = {"message" : "success", "data" : serialized_user}
         return response
 
 

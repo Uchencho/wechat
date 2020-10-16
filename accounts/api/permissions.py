@@ -1,5 +1,6 @@
 from rest_framework.authentication import get_authorization_header
-from rest_framework import permissions
+from rest_framework import permissions, status
+from rest_framework.views import exception_handler
 
 from dotenv import load_dotenv
 import os
@@ -19,4 +20,20 @@ class BasicToken(permissions.BasePermission):
         if token != in_token:
             return False
         return True
+
+
+def custom_exception_handler(exc, context):
+
+    response = exception_handler(exc, context)
+
+    if response is not None:
+        if response.status_code == 403 or response.status_code == 401:
+            response.delete_cookie("refreshtoken")
+            response.status_code = status.HTTP_401_UNAUTHORIZED
+        try:
+            incoming_error = response.data["detail"]
+            response.data = {"error" : incoming_error}
+        except:
+            pass
+    return response
 
