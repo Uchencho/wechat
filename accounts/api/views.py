@@ -71,11 +71,37 @@ class RefreshToken(APIView):
         return Response({"access_token": new_access_token})
 
 
-class RegisterAPIView(generics.CreateAPIView):
-    queryset                = User.objects.all()
-    serializer_class        = UserRegisterSerializer
+class RegisterAPIView(APIView):
     permission_classes      = [BasicToken]
     authentication_classes  = []
+
+    def post(self, request):
+        serializer = UserRegisterSerializer(data = request.data)
+        if serializer.is_valid():
+
+            user = serializer.save()
+            access_token = generate_access_token(user)
+            refresh_token = generate_refresh_token(user)
+
+            serialized_user = serializer.data
+            serialized_user['access_token'] = access_token
+            data = {"message" : "success", "data" : serialized_user}
+            
+            response = Response()
+            response.set_cookie(key='refreshtoken', value=refresh_token, httponly=True)
+            response.data = data
+            return response
+
+        else:
+            data = serializer.errors
+            response = Response()
+            response.delete_cookie(key='refreshtoken')
+            response.status_code = status.HTTP_400_BAD_REQUEST
+            if len(data) > 1:
+                response.data = {"error":"invalid payload"}
+                return response
+            response.data = {"error":list(data.values())[0][0]}
+            return response
 
 
 class LogoutAPIView(APIView):
