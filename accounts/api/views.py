@@ -68,7 +68,8 @@ class RefreshToken(APIView):
             raise exceptions.AuthenticationFailed("User not found")
 
         new_access_token = generate_access_token(user)
-        return Response({"access_token": new_access_token})
+        return Response({"message" : "success",
+         "data":{"access_token": new_access_token}}, status=status.HTTP_201_CREATED)
 
 
 class RegisterAPIView(APIView):
@@ -108,14 +109,14 @@ class LogoutAPIView(APIView):
     def post(self, request):
         response = Response()
         response.delete_cookie("refreshtoken")
-        response.data = {"message" : "logged out successfully"}
+        response.data = {"message" : "logged out successfully", "data" : {}}
         response.status_code = status.HTTP_204_NO_CONTENT
         return response
 
 
 class UpdateProfileView(generics.RetrieveUpdateAPIView):
-
-    serializer_class        =  UpdateProfileSerializer
+    queryset                = User.objects.all()
+    serializer_class        = UpdateProfileSerializer
 
     def get_object(self):
         """
@@ -126,12 +127,17 @@ class UpdateProfileView(generics.RetrieveUpdateAPIView):
         self.check_object_permissions(self.request, obj)
         return obj
 
-    def get_queryset(self):
-        return User.objects.filter(username__iexact=self.request.user.username)
+    def get(self, request):
+        user = request.user
+        user_data = UpdateProfileSerializer(user).data
+        return Response({"message" : "success", "data" : user_data})
+        # return User.objects.filter(username__iexact=self.request.user.username)
 
     def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
+        updated = self.update(request, *args, **kwargs)
+        return Response({"message" : "success", "data" : updated.data})
 
     def patch(self, request, *args, **kwargs):
-        return self.partial_update(request, *args, **kwargs)
+        patched = self.partial_update(request, *args, **kwargs)
+        return Response({"message" : "success", "data" : patched.data})
 
