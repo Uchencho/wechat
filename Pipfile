@@ -16,6 +16,9 @@ websockets = "*"
 websocket-client = "*"
 gunicorn = "*"
 django-heroku = "*"
+channels-redis = "*"
+asgiref = "*"
+django-cors-headers = "*"
 
 [requires]
 python_version = "3.7"
