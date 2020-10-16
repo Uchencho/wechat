@@ -68,12 +68,11 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         return data
 
     def create(self, validated_data):
+        normalized_email = User.objects.normalize_email(validated_data.get('email'))
         user_obj = User(
             username=validated_data.get('username'),
-            email=validated_data.get('email')
+            email=normalized_email
         )
         user_obj.set_password(validated_data.get('password'))
         user_obj.save()
-
-        # Work on returning Matric Number
         return user_obj
