@@ -9,13 +9,20 @@ from chat.channelMiddleware import TokenAuthMiddleware
 
 application = ProtocolTypeRouter({
     # Empty for now, (http-django views is added by default)
-    'websocket' : TokenAuthMiddleware(
-            URLRouter(
-                [
-                    path("messages", ChatConsumer),
-                ]
-            )
-    )
+    # 'websocket' : AllowedHostsOriginValidator(
+    #         TokenAuthMiddleware(
+    #             URLRouter(
+    #                 [
+    #                     url("messages", ChatConsumer),
+    #                 ]
+    #             )
+    #         )
+    #     )
+    'websocket' : URLRouter(
+                    [
+                        url("messages", ChatConsumer),
+                    ]
+                )
             
     # 'websocket' : AllowedHostsOriginValidator(
     #     AuthMiddlewareStack(
