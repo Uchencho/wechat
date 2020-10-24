@@ -18,12 +18,13 @@ application = ProtocolTypeRouter({
     #             )
     #         )
     #     )
-    'websocket' : URLRouter(
-                    [
-                        url("messages", ChatConsumer),
-                    ]
+    'websocket' : TokenAuthMiddleware(
+                    URLRouter(
+                        [
+                            url("messages", ChatConsumer),
+                        ]
+                    )
                 )
-            
     # 'websocket' : AllowedHostsOriginValidator(
     #     AuthMiddlewareStack(
     #         URLRouter(

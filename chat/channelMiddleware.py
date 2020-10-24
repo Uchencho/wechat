@@ -4,6 +4,8 @@ from rest_framework import exceptions
 from urllib.parse import parse_qs
 import jwt
 from django.conf import settings
+from rest_framework import exceptions
+from channels.exceptions import DenyConnection
 
 from accounts.models import User
 
@@ -29,20 +31,31 @@ class TokenAuthMiddlewareInstance:
         try:
             token = parse_qs(self.scope["query_string"].decode("utf8"))["token"][0]
         except KeyError:
-            return None
+            send("No token was passed")
+            raise exceptions.AuthenticationFailed("Auth failed")
 
         try:
             payload = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
         except jwt.ExpiredSignatureError:
-            return None
+            send("Signature error")
+            raise exceptions.AuthenticationFailed("Auth failed")
         except IndexError:
-            return None
+            send("Index error")
+            raise exceptions.AuthenticationFailed("Auth failed")
         except:
-            return None
+            send({
+            "type" : "websocket.send",
+            "text" : "error here"
+        })
+            raise DenyConnection("Auth failed")
 
         user = await get_user(payload['user_id'])
         if not user:
-            return None
+            send({
+            "type" : "websocket.send",
+            "text" : "Can you see me"
+        })
+            raise exceptions.AuthenticationFailed("Auth failed")
 
         self.scope['user'] = user
         inner = self.inner(self.scope)
