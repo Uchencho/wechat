@@ -39,6 +39,7 @@ class User(AbstractUser):
     email           = models.EmailField(('email address'), unique=True)
     phone_number    = models.CharField(('phone number'), max_length=14, blank=True)
     house_add       = models.TextField(('house address'), blank=True)
+    online          = models.BooleanField(default=False)
 
     USERNAME_FIELD          = 'email'
     REQUIRED_FIELDS         = []
