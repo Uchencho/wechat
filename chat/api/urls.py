@@ -1,8 +1,8 @@
 from django.contrib import admin
 from django.urls import path, re_path
 
-from .views import UserView
+from .views import ChatHistory
 
 urlpatterns = [
-    re_path(r"^(?P<username>[\w.@+-]+)", UserView.as_view()),
+    path('history', ChatHistory.as_view(), name='chat-history'),
 ]

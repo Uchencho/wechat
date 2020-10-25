@@ -7,3 +7,15 @@ Allow user to see history of messages sent using lazy loading?
 
 Redis for storing messages?
 Jwt for authentication?
+
+
+User can see a list of people he has chatted with in the past
+User logs in and sees a list of people online(green icon) available people generally
+USer selects one of them and sees all the messages exchanged
+
+{
+    'messages' : {
+        user1 : "text", timestamp: "timestamp",
+        user2 : "text", timestamp: "timestamp",
+    }
+}
