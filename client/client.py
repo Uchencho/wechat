@@ -1,6 +1,8 @@
 import websocket as websocket_client # Importing as websocket client to avoid confusion
 import os
 
+# Remember to run redis server before hitting the endpoints
+
 # Retrieve token from os environment or from postman
 token = os.getenv("access_token")
 
