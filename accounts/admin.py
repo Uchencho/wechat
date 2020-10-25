@@ -10,7 +10,7 @@ class MyUserAdmin(admin.ModelAdmin):
         (None, {'fields': ('email',)}),
         (_('Personal info'), {'fields': ('username', 'first_name', 'last_name',
                                          'phone_number','house_add')}),
-        (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
+        (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser', 'online',
                                        'groups', 'user_permissions')}),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
     )
@@ -24,7 +24,9 @@ class MyUserAdmin(admin.ModelAdmin):
     list_display = [
                     'id',
                     'email',
+                    'username',
                     'phone_number',
+                    'online',
                     'is_active',
                     'is_superuser']
 
