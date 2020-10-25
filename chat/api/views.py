@@ -51,12 +51,12 @@ class AllUsers(APIView):
         online  = request.GET.get('online', None)
 
         if not online:
-            qs = User.objects.filter(is_staff=True)
+            qs = User.objects.filter(is_staff=False)
         else:
             online = string_to_bool(online)
             if type(online) != bool:
                 return Response({"error" : "Online query parameter must be either 'true' or 'false'"}, status=status.HTTP_400_BAD_REQUEST)
-            qs = User.objects.filter(is_staff=True, online=online)
+            qs = User.objects.filter(is_staff=False, online=online)
 
         if not qs.exists():
             return Response({"message" : "success", "data" : {}})
