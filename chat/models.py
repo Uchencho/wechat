@@ -33,6 +33,13 @@ class ThreadManager(models.Manager):
             return None, False
 
 
+class ChatQuerySet(models.QuerySet):
+    pass
+
+class ChatManager(models.Manager):
+    def get_queryset(self):
+        return ChatQuerySet(self.model, using=self._db)
+
 class Thread(models.Model):
 
     first       = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='chat_thread_first')
@@ -60,4 +67,5 @@ class ChatMessage(models.Model):
     message     = models.TextField()
     timestamp   = models.DateTimeField(auto_now_add=True)
 
+    objects = ChatManager()
     
