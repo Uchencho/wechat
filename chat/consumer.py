@@ -1,6 +1,8 @@
 from channels.consumer import SyncConsumer
 from channels.exceptions import StopConsumer
 from asgiref.sync import async_to_sync
+from urllib.parse import parse_qs
+import json
 
 from .models import Thread, ChatMessage
 
@@ -10,11 +12,10 @@ class ChatConsumer(SyncConsumer):
     """
     def websocket_connect(self, event):
 
-        print("Event is ",  event)
         try:
-            other_username = event["text"]["receiver_username"]
-            receiver_id = event["text"]["receiver_id"]
-            print("\nOther username is ", other_username, "and receiver id is ", receiver_id, "\n")
+            queryParams = parse_qs(self.scope["query_string"].decode("utf8"))
+            other_username = queryParams["receiver_username"][0]
+            receiver_id = queryParams["receiver_id"][0]
         except KeyError:
             raise StopConsumer("Invalid Payload")
 
@@ -37,19 +38,22 @@ class ChatConsumer(SyncConsumer):
         user.save()
 
         self.send({
-            "type" : "websocket.send",
+            "type" : "websocket.accept",
             "text" : "Connected"
         })
         
 
     def websocket_receive(self, event):
 
-        message = event['message']
+        msg_json = json.loads(event['text'])
+        message = msg_json['message']
+        resp = {"message" : message}
+        
         async_to_sync(self.channel_layer.group_send)(
             self.room_group_name,
             {
-                'type' : 'websocket.send',
-                'message' : message
+                'type' : 'chat_message',
+                'message' : json.dumps(resp)
             }
         )
         user = self.scope['user']
@@ -66,6 +70,18 @@ class ChatConsumer(SyncConsumer):
             self.channel_name
         )
         raise StopConsumer("Consumer disconnected")
+
+    def chat_message(self, event):
+        incoming_message = event.get('message', None)
+        if incoming_message:
+            message = json.loads(incoming_message)
+        else:
+            message = "received nada"
+        resp = {"message" : message}
+        self.send({
+            'type' : "websocket.send",
+            'text' : json.dumps(resp)
+        })
 
 
 def room_formatter(x):

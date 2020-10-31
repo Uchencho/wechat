@@ -1,23 +1,17 @@
-const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozLCJleHAiOjE2MDQxNjUyMTMsImlhdCI6MTYwNDE1ODAxM30.6N0iUZuo6jf3VdnszZSGGmi3Ob8yE5Hyk4A4UK2b75M"
+const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozLCJleHAiOjE2MDQxNzg4NTIsImlhdCI6MTYwNDE3MTY1Mn0.T9g2hJCi2u3YLp9jvUtOOdHIoR_jKzBmkLpBmE-Pzfg"
 
 const chatSocket = new WebSocket(
     'ws://'
     + 'localhost:8000/messages?token='
     + token
+    + '&receiver_username=uchencho'
+    +'&receiver_id=1'
 );
-
-chatSocket.onopen = function(e) {
-    chatSocket.send(JSON.stringify({
-        'text' : {
-            'receiver_username' : "Uchenchooo",
-            'receiver_id' : 4
-        }
-    }))
-};
 
 chatSocket.onmessage = function(e) {
     const data = JSON.parse(e.data)
-    document.querySelector('#chat-log').value += (data.message + '\n');
+    console.log(data, "and", data.message, ", and again", data.message.message)
+    document.querySelector('#chat-log').value += (data.message.message + '\n');
 };
 
 chatSocket.onclose = function(e) {
