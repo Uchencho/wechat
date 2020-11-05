@@ -40,8 +40,7 @@ class ChatConsumer(SyncConsumer):
         self.send({
             "type" : "websocket.accept",
             "text" : "Connected"
-        })
-        
+        })     
 
     def websocket_receive(self, event):
 
@@ -86,6 +85,6 @@ class ChatConsumer(SyncConsumer):
 
 def room_formatter(x):
     if len(x) != 2:
-        raise IndexError("X should be contain two integers")
+        raise IndexError("X should contain only two integers")
     x = sorted(x)
     return f"room_{x[0]}_{x[1]}"

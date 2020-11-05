@@ -25,15 +25,6 @@ application = ProtocolTypeRouter({
                         ]
                     )
                 )
-    # 'websocket' : AllowedHostsOriginValidator(
-    #     AuthMiddlewareStack(
-    #         URLRouter(
-    #             [
-    #                 url(r"^messages/(?<username>[\w.@+-]+)/$", ChatConsumer),
-    #             ]
-    #         )
-    #     )
-    # )
 })
 
 # ws://ourdomain/messages/<username>
