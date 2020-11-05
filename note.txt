@@ -19,3 +19,8 @@ USer selects one of them and sees all the messages exchanged
         user2 : "text", timestamp: "timestamp",
     }
 }
+
+Steps
+chat_person_initiator_id
+chat_person_recipient_id
+Create a room called {initiator_id}__{recipient_id}_room
