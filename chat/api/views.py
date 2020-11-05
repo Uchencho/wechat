@@ -63,4 +63,3 @@ class AllUsers(APIView):
 
         user_l = [{"id" : the_user.id, "username" : the_user.username, "online" : the_user.online} for the_user in qs if the_user != request.user]
         return Response({"message" : "success", "data" : user_l})
-    
