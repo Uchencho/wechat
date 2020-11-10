@@ -5,6 +5,7 @@ from urllib.parse import parse_qs
 import json
 
 from .models import Thread, ChatMessage
+from chat.api.serializers import ChatMessageSerializer
 
 class ChatConsumer(SyncConsumer):
     """
@@ -37,9 +38,17 @@ class ChatConsumer(SyncConsumer):
         user.online = True
         user.save()
 
+        # Retrieve chat history
+        qs = ChatMessage.objects.filter(thread=thread_obj)
+        serialized_data = ChatMessageSerializer(qs, many=True).data
+
+        # self.send({
+        #     "type" : "websocket.accept",
+        #     "text" : "serialized_data"
+        # })
         self.send({
-            "type" : "websocket.accept",
-            "text" : "Connected"
+            "type" : "websocket.send",
+            "data" : serialized_data
         })     
 
     def websocket_receive(self, event):
