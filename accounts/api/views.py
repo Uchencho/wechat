@@ -84,6 +84,9 @@ class RegisterAPIView(APIView):
             access_token = generate_access_token(user)
             refresh_token = generate_refresh_token(user)
 
+            user.last_login = timezone.now()
+            user.save()
+
             serialized_user = serializer.data
             serialized_user['access_token'] = access_token
             data = {"message" : "success", "data" : serialized_user}

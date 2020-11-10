@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from accounts.models import User
+from chat.models import ChatMessage
 
 class UserSerializer(serializers.ModelSerializer):
     last_login  = serializers.SerializerMethodField(read_only=True)
@@ -15,3 +16,12 @@ class UserSerializer(serializers.ModelSerializer):
 
     def get_last_login(self, obj):
         return obj.last_login.strftime("%d-%b-%Y")
+
+
+class ChatMessageSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ChatMessage
+        fields = [
+            'id', 'thread', 'user', 'message', 'timestamp'
+        ]

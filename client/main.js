@@ -1,4 +1,4 @@
-const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozLCJleHAiOjE2MDQxNzg4NTIsImlhdCI6MTYwNDE3MTY1Mn0.T9g2hJCi2u3YLp9jvUtOOdHIoR_jKzBmkLpBmE-Pzfg"
+const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozLCJleHAiOjE2MDQ4ODI0NDksImlhdCI6MTYwNDg3NTI0OX0.4MOOCZnqumwFfn8i5twePTplqh7BeUJfQRMtu-XhtsU"
 
 const chatSocket = new WebSocket(
     'ws://'
@@ -7,6 +7,11 @@ const chatSocket = new WebSocket(
     + '&receiver_username=uchencho'
     +'&receiver_id=1'
 );
+
+chatSocket.onopen = function(e) {
+    const data = JSON.parse(e.data)
+    console.log(data, "\n\n")
+};
 
 chatSocket.onmessage = function(e) {
     const data = JSON.parse(e.data)
