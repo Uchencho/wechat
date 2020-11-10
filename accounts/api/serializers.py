@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.utils import timezone
 # from datetime import datetime
 
 from accounts.models import User
@@ -15,6 +16,8 @@ class UserSerializer(serializers.ModelSerializer):
         ]
 
     def get_last_login(self, obj):
+        if obj.last_login == None:
+            return timezone.now().strftime("%d-%b-%Y")
         return obj.last_login.strftime("%d-%b-%Y")
 
 
