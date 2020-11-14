@@ -1,4 +1,4 @@
-const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozLCJleHAiOjE2MDQ4ODI0NDksImlhdCI6MTYwNDg3NTI0OX0.4MOOCZnqumwFfn8i5twePTplqh7BeUJfQRMtu-XhtsU"
+const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozLCJleHAiOjE2MDUzNjIwNTUsImlhdCI6MTYwNTM1NDg1NX0.ekKbg1hMln0fjHh51QdEZ4nckJ3XP5o6hulOJjBtOko"
 
 const chatSocket = new WebSocket(
     'ws://'
