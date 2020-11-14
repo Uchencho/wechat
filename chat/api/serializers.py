@@ -19,9 +19,13 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class ChatMessageSerializer(serializers.ModelSerializer):
+    user  = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = ChatMessage
         fields = [
             'id', 'thread', 'user', 'message', 'timestamp'
         ]
+
+    def get_user(self, obj):
+        return obj.user.username

@@ -25,7 +25,10 @@ class ThreadManager(models.Manager):
             return qs.order_by('timestamp').first(), False
         else:
             Klass = user.__class__
-            user2 = Klass.objects.get(username=other_username)
+            try:
+                user2 = Klass.objects.get(username=other_username)
+            except:
+                return None, False
             if user != user2:
                 obj = self.model(first=user, second=user2)
                 obj.save()
@@ -72,3 +75,7 @@ class ChatMessage(models.Model):
     timestamp   = models.DateTimeField(auto_now_add=True)
 
     objects = ChatManager()
+
+    class Meta:
+        ordering            = ['-id']
+
