@@ -128,12 +128,21 @@ LOGGING = {
             'class' : 'logging.FileHandler',
             'filename' : 'error.log',
         },
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+        },
     },
     'loggers' : {
         'django' : {
             'handlers' : ['file'],
             'level' : os.getenv('DJANGO_LOG_LEVEL', 'ERROR'),
             'propagate' : True,
+        },
+        'django.request': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': True,
         },
     },
 }
