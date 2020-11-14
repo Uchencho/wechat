@@ -75,3 +75,7 @@ class ChatMessage(models.Model):
     timestamp   = models.DateTimeField(auto_now_add=True)
 
     objects = ChatManager()
+
+    class Meta:
+        ordering            = ['-id']
+

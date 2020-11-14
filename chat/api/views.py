@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.views import APIView
+from rest_framework.pagination import PageNumberPagination
 
 from accounts.models import User
 from chat.models import Thread, ChatMessage
@@ -68,6 +69,10 @@ class AllUsers(APIView):
 class MessageHistory(APIView):
 
     def post(self, request):
+        page_param              = request.GET.get('page', '1')
+        paginator               = PageNumberPagination()
+        paginator.page_size     = 30
+
         logged_in_user = request.user
         other_user_username = request.data.get('username', "Not Sent")
 
@@ -88,6 +93,13 @@ class MessageHistory(APIView):
         if not qs.exists():
             return Response({"message": {}})
 
-        msg_history = ChatMessageSerializer(qs, many=True).data
-        return Response({"message" : "successful", "data": msg_history}, status=status.HTTP_200_OK)
+        paginated_qs    = paginator.paginate_queryset(qs, request)
+        msg_history     = ChatMessageSerializer(paginated_qs, many=True).data
+        data            = {
+                            "count" : qs.count(),
+                            "count_per_page" : 30,
+                            "current_page" : page_param,
+                            "payload" : msg_history
+                            }
+        return Response({"message" : "successful", "data": data}, status=status.HTTP_200_OK)
 
