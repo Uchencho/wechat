@@ -21,13 +21,7 @@ class MyUserAdmin(admin.ModelAdmin):
         }),
     )
 
-    list_display = [
-                    'id',
-                    'email',
-                    'username',
-                    'phone_number',
-                    'online',
-                    'is_active',
-                    'is_superuser']
+    list_display = ['id', 'email', 'username', 'phone_number',
+                    'online', 'is_active', 'is_superuser']
 
 admin.site.register(User, MyUserAdmin)

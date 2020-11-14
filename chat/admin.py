@@ -1,7 +1,6 @@
 from django.contrib import admin
 from .models import Thread, ChatMessage
 
-# Register your models here.
 class ThreadAdmin(admin.ModelAdmin):
 
     model = Thread

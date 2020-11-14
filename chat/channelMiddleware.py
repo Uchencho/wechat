@@ -31,31 +31,20 @@ class TokenAuthMiddlewareInstance:
         try:
             token = parse_qs(self.scope["query_string"].decode("utf8"))["token"][0]
         except KeyError:
-            send("No token was passed")
-            raise exceptions.AuthenticationFailed("Auth failed")
+             raise DenyConnection("Key Error, expected query string token='actual_token")
 
         try:
             payload = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
         except jwt.ExpiredSignatureError:
-            send("Signature error")
-            raise exceptions.AuthenticationFailed("Auth failed")
+            raise DenyConnection("Token has expired")
         except IndexError:
-            send("Index error")
-            raise exceptions.AuthenticationFailed("Auth failed")
+            raise DenyConnection("Auth failed")
         except:
-            send({
-            "type" : "websocket.send",
-            "text" : "error here"
-        })
             raise DenyConnection("Auth failed")
 
         user = await get_user(payload['user_id'])
         if not user:
-            send({
-            "type" : "websocket.send",
-            "text" : "Can you see me"
-        })
-            raise exceptions.AuthenticationFailed("Auth failed")
+            raise DenyConnection("Invalid User")
 
         self.scope['user'] = user
         inner = self.inner(self.scope)

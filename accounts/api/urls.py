@@ -1,11 +1,7 @@
 from django.urls import path, include
 
-from .views import (
-                    Login, 
-                    RefreshToken, 
-                    RegisterAPIView, 
-                    LogoutAPIView,
-                    UpdateProfileView)
+from .views import (Login, RefreshToken, RegisterAPIView, 
+                    LogoutAPIView, UpdateProfileView)
 
 app_name = "accounts"
 

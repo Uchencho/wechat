@@ -60,12 +60,6 @@ class Thread(models.Model):
     def room_group_name(self):
         return f'chat_{self.pk}'
 
-    def broadcast(self, msg=None):
-        if msg is not None:
-            # broadcast_msg_to_chat(self, group_name=self.room_group_name, user='admin')
-            return True
-        return False
-
     
 class ChatMessage(models.Model):
     
