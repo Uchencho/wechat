@@ -63,10 +63,11 @@ ROOT_URLCONF = 'wechat.urls'
 ASGI_APPLICATION = 'wechat.routing.application'
 CHANNEL_LAYERS = {
     'default' : {
-        'BACKEND' : 'channels_redis.core.RedisChannelLayer',
-        'CONFIG' : {
-            "hosts" : [os.environ.get('REDIS_URL', 'redis://localhost:6379')]
-        },
+        # 'BACKEND' : 'channels_redis.core.RedisChannelLayer',
+        'BACKEND' : "channels.layers.InMemoryChannelLayer",
+        # 'CONFIG' : {
+        #     "hosts" : [os.environ.get('REDIS_URL', 'redis://localhost:6379')]
+        # },
     },
 }
 
@@ -167,7 +168,7 @@ STATIC_URL = '/static/'
 
 # This is being loaded up in the dotenv file
 EMAIL = os.getenv("EMAIL")
-REFRESH_TOKEN_SECRET = "d10476a0e00bff48364c7a56214c6177f82fb096577b49f986f7f8913ccb2e1d"
+REFRESH_TOKEN_SECRET = os.getenv("refreshToken")
 # timezone.localtime(timezone.now())
 
 from wechat.restconf.main import REST_FRAMEWORK
