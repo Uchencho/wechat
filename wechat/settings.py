@@ -23,12 +23,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'sxf(*_#@5pum4x!auh0yh=d(+4b8x03x%s0#cmft+^n@myu$uf'
+SECRET_KEY = os.getenv("secretKey")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False if os.environ.get("ENV") == "HEROKU" else True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["localhost"]
 
 
 # Application definition
@@ -63,11 +63,7 @@ ROOT_URLCONF = 'wechat.urls'
 ASGI_APPLICATION = 'wechat.routing.application'
 CHANNEL_LAYERS = {
     'default' : {
-        # 'BACKEND' : 'channels_redis.core.RedisChannelLayer',
         'BACKEND' : "channels.layers.InMemoryChannelLayer",
-        # 'CONFIG' : {
-        #     "hosts" : [('127.0.0.1', 6379)]
-        # },
     },
 }
 
@@ -166,16 +162,16 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 STATIC_URL = '/static/'
 
-# This is being loaded up in the dotenv file
+# This is being loaded up from the dotenv file
 EMAIL = os.getenv("EMAIL")
 REFRESH_TOKEN_SECRET = os.getenv("refreshToken")
-# timezone.localtime(timezone.now())
 
 from wechat.restconf.main import REST_FRAMEWORK
 
 
-# django_heroku.settings(locals())
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
-# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', ['https', 'wss'])
-# SECURE_SSL_REDIRECT = True
+if os.environ.get("ENV") == "HEROKU":
+    django_heroku.settings(locals())
+    SECURE_SSL_REDIRECT = True
+

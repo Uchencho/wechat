@@ -1,7 +1,6 @@
 from datetime import datetime, timedelta
 import jwt
 from django.conf import settings
-from rest_framework.views import exception_handler
 
 def generate_access_token(user):
 

@@ -40,7 +40,6 @@ class ChatConsumer(SyncConsumer):
 
         self.send({
             "type" : "websocket.accept",
-            "text" : "serialized_data"
         })  
 
     def websocket_receive(self, event):

@@ -8,6 +8,3 @@ urlpatterns = [
     path('api/chat/', include('chat.api.urls')),
 
 ]
-
-
-# https://github.com/codingforentrepreneurs/Rapid-ChatXChannels

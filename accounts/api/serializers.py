@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from django.utils import timezone
-# from datetime import datetime
 
 from accounts.models import User
 
